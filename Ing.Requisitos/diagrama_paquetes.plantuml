@@ -20,10 +20,16 @@ package "Panel Administrativo" {
   class Administrador
 }
 
+package "Base de Datos" {
+  class BD_delicias <<database>>
+}
+
 Mesero --> Pedido : registra
 Pedido --> Cocina : enviar pedido
 Cocina --> Producto : utiliza productos
 Producto --> Inventario : consulta y actualiza existencia
+Inventario --> BD_delicias : consulta/actualiza inventario
+BD_delicias --> Inventario : respuesta disponibilidad
 Administrador --> Producto : gestiona productos
 Administrador --> Inventario : solicita reposición
 Administrador --> Pedido : visualiza pedidos

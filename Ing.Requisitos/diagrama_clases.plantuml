@@ -37,10 +37,21 @@ class Cocina {
   +prepararPedido(numeroPedido: int)
 }
 
+class Inventario {
+  +verificarDisponibilidad(idProducto: int): bool
+  +actualizarInventario(idProducto: int, cantidad: int)
+}
+
+class BD_delicias {
+  +consultarInventario(idProducto: int): int
+  +actualizarInventario(idProducto: int, cantidad: int)
+}
+
 Mesero "1" -- "0..*" Pedido : registra
 Pedido "1" -- "1..*" Producto : contiene
 Administrador "1" -- "1..*" Producto : gestiona
 Cocina "1" -- "0..*" Pedido : prepara
-
+Inventario "1" -- "0..*" Producto : gestiona
+Inventario "1" -- "1" BD_delicias : consulta/actualiza inventario 
 @enduml
 

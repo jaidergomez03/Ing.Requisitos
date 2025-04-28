@@ -2,6 +2,7 @@
 start
 :Mesero ingresa pedido en el sistema;
 :Sistema consulta inventario en tiempo real;
+:Sistema consulta BD_delicias para verificar inventario;
 if (¿Ingredientes disponibles?) then (Sí)
     :Sistema genera número de pedido;
     :Enviar pedido a la cocina;
@@ -20,13 +21,17 @@ else (No)
             :No ofrecer platillo por el momento;
         else (No)
             :Solicitar reposición de ingredientes;
+            :Inventario solicita actualización de inventario a BD_delicias;
+            :BD_delicias confirma actualización;
         endif
         :Notificar reposición de ingredientes;
         :Mesero notifica al cliente sobre el retraso;
     endif
 endif
-:Mesero recibe el pedido preparado;
 :Estado del pedido actualizado a "listo para servir";
+:Mesero recibe el pedido preparado;
+
 stop
 @enduml
+
 
