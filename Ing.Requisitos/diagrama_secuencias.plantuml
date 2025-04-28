@@ -1,0 +1,44 @@
+@startuml secuencias
+actor Mesero
+participant Sistema
+participant Inventario
+participant Cocina
+participant Administrador
+database BD_delicias
+
+Mesero -> Sistema : Ingresar pedido
+Sistema -> Inventario : Consultar disponibilidad
+Inventario -> BD_delicias : Consultar inventario
+BD_delicias --> Inventario : Respuesta disponibilidad
+Inventario --> Sistema : Disponibilidad (Sí / No)
+
+alt Ingredientes disponibles
+    Sistema -> Cocina : Enviar pedido
+    Cocina -> Sistema : Confirmar preparación
+    Sistema -> Mesero : Actualizar estado a "listo para servir"
+else Ingredientes faltantes
+    Sistema -> Mesero : Notificar faltantes
+    Mesero -> Cliente : Consultar alternativas
+    Cliente --> Mesero : Respuesta (acepta/no acepta)
+
+    alt Cliente acepta alternativas
+        Sistema -> Cocina : Enviar pedido con alternativas
+    else Cliente no acepta alternativas
+        Sistema -> Mesero : Cancelar pedido
+        Mesero -> Sistema : Actualizar estado a "cancelado"
+        Sistema -> Administrador : Notificar cancelación
+        Administrador -> Sistema : Decide (suspender o reponer)
+        
+        alt Administrador suspende platillo
+            Sistema -> Cocina : No ofrecer platillo por el momento
+        else Administrador decide reponer
+            Sistema -> Inventario : Solicitar reposición de ingredientes
+            Inventario -> BD_delicias : Actualizar inventario
+            BD_delicias --> Inventario : Confirmar reposición   
+            Inventario --> Sistema : Confirmar reposición
+            Sistema -> Mesero : Notificar retraso
+        end
+    end if
+end
+@enduml
+

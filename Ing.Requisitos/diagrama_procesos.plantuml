@@ -1,0 +1,32 @@
+@startuml procesos
+start
+:Mesero ingresa pedido en el sistema;
+:Sistema consulta inventario en tiempo real;
+if (¿Ingredientes disponibles?) then (Sí)
+    :Sistema genera número de pedido;
+    :Enviar pedido a la cocina;
+    :Cocina prepara el pedido;
+    :Actualizar estado del pedido;
+else (No)
+    :Notificar al mesero sobre falta de ingredientes;
+    :Mesero consulta al cliente sobre alternativas;
+    if (¿Cliente acepta alternativas?) then (Sí)
+        :Volver al paso de "Ingredientes disponibles?";
+    else (No)
+        :Cancelar pedido;
+        :Actualizar estado del pedido a "cancelado";
+        :Generar notificación al administrador;
+        if (¿Administrador suspende platillo?) then (Sí)
+            :No ofrecer platillo por el momento;
+        else (No)
+            :Solicitar reposición de ingredientes;
+        endif
+        :Notificar reposición de ingredientes;
+        :Mesero notifica al cliente sobre el retraso;
+    endif
+endif
+:Mesero recibe el pedido preparado;
+:Estado del pedido actualizado a "listo para servir";
+stop
+@enduml
+

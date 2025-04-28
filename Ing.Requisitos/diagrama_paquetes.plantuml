@@ -1,0 +1,31 @@
+@startuml paquetes
+package "Módulo de Pedidos" {
+  class Pedido
+  class Mesero
+}
+
+package "Módulo de Cocina" {
+  class Cocina
+}
+
+package "Módulo de Inventario" {
+  class Producto
+  class Inventario {
+    +verificarDisponibilidad(idProducto: int): bool
+    +actualizarStock(idProducto: int, cantidad: int)
+  }
+}
+
+package "Panel Administrativo" {
+  class Administrador
+}
+
+Mesero --> Pedido : registra
+Pedido --> Cocina : enviar pedido
+Cocina --> Producto : utiliza productos
+Producto --> Inventario : consulta y actualiza existencia
+Administrador --> Producto : gestiona productos
+Administrador --> Inventario : solicita reposición
+Administrador --> Pedido : visualiza pedidos
+
+@enduml

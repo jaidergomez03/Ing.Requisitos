@@ -1,0 +1,46 @@
+@startuml clases
+class Mesero {
+  +id: int
+  +nombre: string
+  +registrarPedido()
+  +consultarClienteAlternativas()
+  +notificarRetraso()
+}
+
+class Pedido {
+  +numeroPedido: int
+  +fecha: Date
+  +estado: string
+  +actualizarEstado(nuevoEstado: string)
+}
+
+class Producto {
+  +idProducto: int
+  +nombre: string
+  +cantidadDisponible: int
+  +verificarDisponibilidad(): bool
+}
+
+class Administrador {
+  +id: int
+  +nombre: string
+  +gestionarInventario()
+  +gestionarUsuarios()
+  +recibirNotificaciones()
+  +suspenderPlatillo(idProducto: int)
+  +solicitarReposicion(idProducto: int)
+}
+
+class Cocina {
+  +id: int
+  +nombreChef: string
+  +prepararPedido(numeroPedido: int)
+}
+
+Mesero "1" -- "0..*" Pedido : registra
+Pedido "1" -- "1..*" Producto : contiene
+Administrador "1" -- "1..*" Producto : gestiona
+Cocina "1" -- "0..*" Pedido : prepara
+
+@enduml
+
